@@ -323,7 +323,7 @@ function processmodel(pm)
     if includeRefGenerateCodeTask && includeMergeTestResultsTask
         codegenTask.runsAfter(mergeTestTask);
     end
-    if includeGenerateCodeTask && includeFindClones
+    if includeRefGenerateCodeTask && includeFindClones
         codegenTask.runsAfter(acrossModelCloneDetectTask);
         codegenTask.runsAfter(libCloneDetectTask);
     end
