@@ -9,8 +9,8 @@ function generate_jenkins_pipeline()
 
     cp = openProject(strcat(workspace,filesep,string(relativeProjectPath)));
     op = padv.pipeline.JenkinsOptions;
-    op.AgentLabel = "<Jenkins agent label>";
-    op.PipelineArchitecture = "SerialStagesGroupPerTask";
+    op.AgentLabel = "padv_win_agents";
+    op.PipelineArchitecture = "IndependentModelPipelines";
     op.GeneratorVersion = 2;
     op.SupportPackageRoot = supportPackageRoot;
     op.GeneratedPipelineDirectory = pipelineGenDirectory;
@@ -20,19 +20,19 @@ function generate_jenkins_pipeline()
     op.RelativeProjectPath = relativeProjectPath;
     op.RemoteBuildCacheName = remoteBuildCacheName;
 
-    op.ArtifactServiceMode = 'network';         % network/jfrog/s3/azure_blob
-    op.NetworkStoragePath = '<Network storage path>';
+    op.ArtifactServiceMode = 'azure_blob';         % network/jfrog/s3/azure_blob
+    % op.NetworkStoragePath = '<Network storage path>';
     % op.ArtifactoryUrl = '<JFrog Artifactory url>';
     % op.ArtifactoryRepoName = '<JFrog Artifactory repo name>';
     % op.S3BucketName = '<AWS S3 bucket name>';
     % op.S3AwsAccessKeyID = '<AWS S3 access key id>';
-    % op.AzContainerName = '<Azure Blob container name>';
+    op.AzContainerName = 'padvblobcontainer';
     % op.RunnerType = "container";          % default/container
     % op.ImageTag = '<Docker Image full name>';
     % op.ImageArgs = "<Docker container arguments>";
     
     % Docker image settings
-    % op.UseMatlabPlugin = false;
+    op.UseMatlabPlugin = false;
     % op.MatlabLaunchCmd = "xvfb-run -a matlab -batch"; 
     % op.MatlabStartupOptions = "";
     % op.AddBatchStartupOption = false;
