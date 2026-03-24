@@ -1,7 +1,7 @@
 // Copyright 2025 The MathWorks, Inc.
-node('<Jenkins agent label>'){
+node('padv_win_agents'){
     // For the online configuration guide visit: https://www.mathworks.com/help/slcheck/padv/ug/integrate-process-into-jenkins-with-artifact-management.html
-    env.MW_SUPPORT_PACKAGE_ROOT = '<Support package root path>'
+    env.MW_SUPPORT_PACKAGE_ROOT = 'D:/sb/bslcicd_0323/matlab'
     // env.MW_RELATIVE_PROJECT_PATH = "<Project relative path from repository root>";  // e.g. "" or "relative/path/to/project/"
     env.MW_REMOTE_BUILD_CACHE_NAME = "$JOB_NAME"
     env.MW_PIPELINE_GEN_DIRECTORY = "_pipelineGen_"
@@ -15,9 +15,9 @@ node('<Jenkins agent label>'){
     //     env.S3_AWS_SECRET_ACCESS_KEY = s3_access_key
     // }
     // For Azure Blob storage services, you need to set the Azure storage account connection string in Jenkins credentials with the 'AZ_CONNECTION_STRING_SECRET' ID.
-    // withCredentials([string( credentialsId: 'AZ_CONNECTION_STRING_SECRET',variable: 'az_connection_string')]) {
-    //     env.AZ_CONNECTION_STRING = az_connection_string
-    // }
+    withCredentials([string( credentialsId: 'AZ_CONNECTION_STRING_SECRET',variable: 'az_connection_string')]) {
+        env.AZ_CONNECTION_STRING = az_connection_string
+    }
 
     def pipelineGenerationPath = "${env.MW_RELATIVE_PROJECT_PATH?:''}${env.MW_PIPELINE_GEN_DIRECTORY}"
     stage('Pipeline Generation'){
