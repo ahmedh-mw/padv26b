@@ -40,3 +40,4 @@ codegen/
 *.sbproj.bak
 
 derived/
+PA_Results/
