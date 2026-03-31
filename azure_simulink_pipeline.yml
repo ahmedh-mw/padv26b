@@ -1,0 +1,76 @@
+# Make sure to configure the tokens below.
+name: AzureDevOps MATLAB Workflow-$(Year:yyyy).$(Month).$(DayOfMonth)-$(Rev:.r)-$(Build.BuildId)
+variables:
+  MW_SUPPORT_PACKAGE_ROOT: 'D:/sb/bslcicd_0323/matlab'  
+  MW_RELATIVE_PROJECT_PATH: ''    # "" or "<Relative Path From Repo to main project>" 
+  MW_PIPELINE_GEN_DIRECTORY: '_pipelineGen_' 
+  MW_IR_DAG_FILE_PATH: '' 
+  # Note: You should never hardcode secrets or tokens in the YAML file.
+  # For JFrog Artifactory storage services, you need to set the JFrog API token in Azure DevOps variables with the 'ARTIFACTORY_API_TOKEN_SECRET' ID. 
+  # For S3 storage services, you need to set the AWS S3 access key in Azure DevOps variables with the 'S3_AWS_SECRET_ACCESS_KEY_SECRET' ID. 
+  # For Azure Blob storage services, you need to set the Azure storage account connection string in Azure DevOps variables with the 'AZ_CONNECTION_STRING_SECRET' ID. 
+stages:
+- stage: generate_files
+  jobs:
+  - job: job_generate_files
+    pool: 'padv_win_agents' 
+    variables:  
+      MW_PIPELINE_GEN_PATH: $(MW_RELATIVE_PROJECT_PATH)$(MW_PIPELINE_GEN_DIRECTORY)
+    steps:
+      - checkout: self
+        fetchDepth: 0
+      - script: >
+          python3 -c "import shutil,os; os.makedirs(r'$(MW_PIPELINE_GEN_PATH)', exist_ok=True); 
+          shutil.copy(r'$(MW_IR_DAG_FILE_PATH)ir_dag.json',r'$(MW_PIPELINE_GEN_PATH)/')" 
+        displayName: Copy generated files
+      - publish: $(MW_PIPELINE_GEN_PATH)/
+        displayName: Upload pipeline generated files
+        artifact: pipeline_generated_files
+- template: /templates/generic-job.yml 
+  parameters:
+    name: start
+    dependsOn: [generate_files]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_CollectMetrics_AHRS_Voter
+    dependsOn: [start]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter
+    dependsOn: [padv_builtin_task_CollectMetrics_AHRS_Voter]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_CollectMetrics_Actuator_Control
+    dependsOn: [start]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_GenerateSimulinkWebView_Actuator_Control
+    dependsOn: [padv_builtin_task_CollectMetrics_Actuator_Control]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_CollectMetrics_Flight_Control
+    dependsOn: [start]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_GenerateSimulinkWebView_Flight_Control
+    dependsOn: [padv_builtin_task_CollectMetrics_Flight_Control]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_CollectMetrics_InnerLoop_Control
+    dependsOn: [start]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control
+    dependsOn: [padv_builtin_task_CollectMetrics_InnerLoop_Control]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_CollectMetrics_OuterLoop_Control
+    dependsOn: [start]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control
+    dependsOn: [padv_builtin_task_CollectMetrics_OuterLoop_Control]
+- template: /templates/generic-job.yml 
+  parameters:
+    name: end
+    dependsOn: [padv_builtin_task_GenerateSimulinkWebView_AHRS_Voter, padv_builtin_task_GenerateSimulinkWebView_Actuator_Control, padv_builtin_task_GenerateSimulinkWebView_Flight_Control, padv_builtin_task_GenerateSimulinkWebView_InnerLoop_Control, padv_builtin_task_GenerateSimulinkWebView_OuterLoop_Control]
