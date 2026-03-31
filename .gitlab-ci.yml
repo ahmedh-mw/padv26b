@@ -19,7 +19,7 @@ SimulinkPipelineGeneration:
   stage: SimulinkPipelineGeneration
   variables:
     MW_PIPELINE_UTIL_PATH: "${MW_SUPPORT_PACKAGE_ROOT}/toolbox/padv/pipeline_generator/ci"
-  tags: ["<GitLab runner tags>"]
+  tags: ["padv_win_agents"]
   script:
     - >
       python3 -c "import shutil,os;os.makedirs(r'$MW_RELATIVE_PROJECT_PATH$MW_PIPELINE_GEN_DIRECTORY', exist_ok=True); 
