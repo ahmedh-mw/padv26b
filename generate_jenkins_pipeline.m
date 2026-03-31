@@ -1,5 +1,6 @@
 % Copyright 2025 The MathWorks, Inc.
-
+% setenv('WORKSPACE',pwd); setenv('MW_SUPPORT_PACKAGE_ROOT', matlabroot);
+% setenv('MW_REMOTE_BUILD_CACHE_NAME','prj'); setenv('MW_PIPELINE_GEN_DIRECTORY','_gen_');
 function generate_jenkins_pipeline()
     workspace = string(getenv('WORKSPACE'));      % Reading Jenkins workspace environment variable
     supportPackageRoot = string(getenv('MW_SUPPORT_PACKAGE_ROOT'));
