@@ -6,7 +6,7 @@ stages:
   - SimulinkPipelineExecution
 
 variables:
-  MW_SUPPORT_PACKAGE_ROOT: "'D:/sb/bslcicd_0323/matlab"
+  MW_SUPPORT_PACKAGE_ROOT: "D:/sb/bslcicd_0323/matlab"
   # MW_RELATIVE_PROJECT_PATH: "<Project relative path from repository root>"    # e.g. "" or "relative/path/to/project/"
   MW_REMOTE_BUILD_CACHE_NAME: "${CI_PIPELINE_NAME}" 
   MW_PIPELINE_GEN_DIRECTORY: _pipelineGen_
