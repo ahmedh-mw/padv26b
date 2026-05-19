@@ -4,7 +4,7 @@ function generate_azure_pipeline()
     op = padv.pipeline.AzureDevOpsOptions;
     op.PipelineArchitecture = "IndependentModelPipelines";
     op.GeneratorVersion = 2;
-    op.SupportPackageRoot = "D:/sb/bslcicd_0323/matlab";
+    op.SupportPackageRoot = "D:/repos/bslcicd/matlab";
     op.AgentPoolName = "padv_win_agents";
     op.GeneratedPipelineDirectory = "_pipelineGen_";
     op.StopOnStageFailure = true;
