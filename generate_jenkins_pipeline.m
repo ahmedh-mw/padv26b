@@ -22,6 +22,8 @@ function generate_jenkins_pipeline()
     op.RelativeProjectPath = relativeProjectPath;
     op.RemoteBuildCacheName = remoteBuildCacheName;
 
+    op.CacheFallbackBranches = ["master", "develop"];
+
     op.ArtifactServiceMode = 'azure_blob';         % network/jfrog/s3/azure_blob
     % op.NetworkStoragePath = '<Network storage path>';
     % op.ArtifactoryUrl = '<JFrog Artifactory url>';
