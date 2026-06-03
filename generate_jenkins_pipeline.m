@@ -11,7 +11,7 @@ function generate_jenkins_pipeline()
     cp = openProject(strcat(workspace,filesep,string(relativeProjectPath)));
     op = padv.pipeline.JenkinsOptions;
     op.AgentLabel = "padv_win_agents";
-    op.PipelineArchitecture = "SerialStages";  % SingleStage, SerialStagesGroupPerTask, SerialStages, IndependentModelPipelines
+    op.PipelineArchitecture = "SerialStagesGroupPerTask";  % SingleStage, SerialStagesGroupPerTask, SerialStages, IndependentModelPipelines
     % op.PipelineArchitecture = "SingleStage";
     op.GeneratorVersion = 2;
     op.SupportPackageRoot = supportPackageRoot;
